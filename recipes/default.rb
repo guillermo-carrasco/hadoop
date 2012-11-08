@@ -30,7 +30,14 @@ template "/etc/apt/sources.list.d/cloudera.list" do
   notifies :run, resources("execute[apt-get update]"), :immediately
 end
 
-execute "curl -s http://archive.cloudera.com/debian/archive.key | apt-key add -" do
+#Add correct key depending on the codename
+key_url = case node[:lsb][:codename]
+  when "lucid" then "curl -s http://archive.cloudera.com/cdh4/ubuntu/lucid/amd64/cdh/archive.key | sudo apt-key add -"
+  when "precise" then "curl -s http://archive.cloudera.com/cdh4/ubuntu/precise/amd64/cdh/archive.key | sudo apt-key add -"
+  when "squeeze" then "curl -s http://archive.cloudera.com/cdh4/debian/squeeze/amd64/cdh/archive.key | sudo apt-key add -"
+end
+
+execute key_url do
   not_if "apt-key export 'Cloudera Apt Repository'"
 end
 
