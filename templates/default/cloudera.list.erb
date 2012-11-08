@@ -1,2 +1,2 @@
-deb [arch=amd64] http://archive.cloudera.com/cdh4/#{node[:platform]}/#{node[:lsb][:codename]}/amd64/cdh #{node[:lsb][:codename]}-cdh4 contrib
-deb-src http://archive.cloudera.com/cdh4/#{node[:platform]}/#{node[:lsb][:codename]}/amd64/cdh #{node[:lsb][:codename]}-cdh4 contrib
+deb [arch=amd64] http://archive.cloudera.com/cdh4/<%=node[:platform]%>/<%=node[:lsb][:codename]%>/amd64/cdh <%=node[:lsb][:codename]%>-cdh4 contrib
+deb-src http://archive.cloudera.com/cdh4/<%=node[:platform]%>/<%=node[:lsb][:codename]%>/amd64/cdh <%=node[:lsb][:codename]%>-cdh4 contrib
