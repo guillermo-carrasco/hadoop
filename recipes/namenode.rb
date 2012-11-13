@@ -22,3 +22,4 @@ include_recipe "hadoop::repo"
 package "hadoop"
 #Namenode specific packages
 package "hadoop-hdfs-namenode"
+package "hadoop-0.20-mapreduce-jobtracker"
