@@ -17,6 +17,6 @@
 # limitations under the License.
 #
 
-include_recipe "java"
+include_recipe "hadoop"
 
 package "hadoop-doc"
