@@ -11,8 +11,7 @@ Requirements
 
 * Debian/Ubuntu
 
-Tested on Ubuntu 8.10, though should work on most Linux distributions,
-see `hadoop[:java_home]`.
+Tested on Ubuntu 12.04, though should work on most Linux distributions.
 
 ## Cookbooks:
 
@@ -31,31 +30,16 @@ You may wish to add more attributes for tuning the configuration file templates.
 
 Usage
 =====
+Thic cookbook installs the corresponding hadoop packages and daemons depending
+on which node you specify. It uses [Cloudera's distribution][o1]. You can specify
+which node are you installing:
 
-This cookbook performs the tasks described in the Hadoop Quick
-Start[1] to get the software installed. You should copy this to a
-site-cookbook and modify the templates to meet your requirements.
+* hadoop::namenode
+* hadoop::datanode
+* hadoop::namenode_yarn
+* hadoop::datanode_yarn
 
-Once the recipe is run, the distributed filesystem can be formated
-using the script /usr/bin/hadoop.
-
-    sudo -u hadoop /usr/bin/hadoop namenode -format
-  
-You may need to set up SSH keys for hadoop management commands. 
-
-Note that this is not the 'default' config per se, so using the
-start-all.sh script won't start the processes because the config files
-live elsewhere. For running various hadoop processes as services, we
-suggest runit. A sample 'run' script is provided. The HADOOP_LOG_DIR
-in the run script must exist for each process. These could be wrapped
-in a define.
-
-* datanode
-* jobtracker
-* namenode
-* tasktracker
-
-[1] http://hadoop.apache.org/core/docs/current/quickstart.html
+[o1]:http://www.cloudera.com/content/cloudera/en/products/cdh.html
 
 License and Author
 ==================
@@ -63,6 +47,8 @@ License and Author
 Author:: Joshua Timberman (<joshua@opscode.com>)
 
 Copyright:: 2009, Opscode, Inc
+
+Maintainer of this version: Guillermo Carrasco (<guillermo.carrasco@scilifelab.se>)
 
 
 you may not use this file except in compliance with the License.
