@@ -1,4 +1,3 @@
-author            "Opscode, Inc."
 maintainer        "Guillermo Carrasco"
 maintainer_email  "guillermo.carrasco@scilifelab.se"
 license           "Apache 2.0"

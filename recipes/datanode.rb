@@ -11,3 +11,72 @@ include_recipe "hadoop"
 package "hadoop-0.20-mapreduce-tasktracker"
 package "hadoop-hdfs-datanode"
 package "hadoop-client"
+
+#Configure core-site.xml
+core_site_vars = { :options => node[:hadoop][:datanode][:core] }
+template '/etc/hadoop/conf.my_cluster/core-site.xml' do
+    source "site.xml.erb"
+    mode 0644
+    owner "root"
+    group "root"
+    action :create
+    variables core_site_vars
+end
+
+#Configure hdfs-site.xml
+hdfs_site_vars = { :options => node[:hadoop][:datanode][:hdfs] }           
+template '/etc/hadoop/conf.my_cluster/hdfs-site.xml' do                         
+    source "site.xml.erb"                                                       
+    mode 0644                                                                   
+    owner "root"                                                                
+    group "root"                                                                
+    action :create                                                              
+    variables hdfs_site_vars                                               
+end
+
+#Configure mapred-site
+mapred_site_vars = { :options => node[:hadoop][:datanode][:mapred] }           
+template '/etc/hadoop/conf.my_cluster/mapred-site.xml' do                         
+    source "site.xml.erb"                                                       
+    mode 0644                                                                   
+    owner "root"                                                                
+    group "root"                                                                
+    action :create                                                              
+    variables mapred_site_vars                                               
+end
+
+#Create data directories for HDFS
+%w{/hdfs/data/1/ /hdfs/data/2/}.each do |dir|
+    directory "#{dir}" do
+        mode 0755
+        owner "hdfs"
+        group "hdfs"
+        action :create
+        recursive true
+    end
+end
+
+#Create data directories for MapReduce
+%w{/data/1/mapred/local /data/2/mapred/local}.each do |dir|
+    directory "#{dir}" do
+        mode 0755
+        owner "mapred"
+        group "hadoop"
+        action :create
+        recursive true
+    end
+end
+
+#Start and enable the HDFS services
+service "hadoop-hdfs-datanode" do
+    action [ :start, :enable]
+end
+
+#Start mapreduce service
+service "hadoop-0.20-mapreduce-tasktracker" do
+    action [ :start, :enable]
+end
+
+execute 'Add the user vagrant to the group hadoop' do
+    command 'usermod -a -G hadoop vagrant'
+end
