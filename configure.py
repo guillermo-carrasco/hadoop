@@ -28,14 +28,19 @@ def _configure(command, opts=None):
 
     else if command == 'datanode':
         chef_recipe = chef_recipe.format(type='datanode')
-
+        ck(chef_recipe, shell=True)
         if not opts:
             raise AttributeError('Please specify the internal name of the namenode in this cluster.')
 
         change_attributes = """
-        sed -i 's/namenode/{ops}/g' cookbooks/hadoop/attributes/default.rb
+        sed -i 's/namenode\//{ops}\//g' cookbooks/hadoop/attributes/default.rb
         """.format(ops=str(opts))
         ck(change_attributes, shell=True)
+        change_attributes = """
+        sed -i 's/namenode:/{ops}:/g' cookbooks/hadoop/attributes/default.rb
+        """.format(ops=str(opts))
+        ck(change_attributes, shell=True)
+        ck(execute_recipe, shell=True)
         services = """
         for s in /etc/init.d/hadoop-*; do sudo $s restart; done
         """
