@@ -5,9 +5,9 @@ from subprocess import check_call as ck
 import pydoop.hdfs as hdfs
 
 
-def _configure(node, opts=None):
+def _configure(command, opts=None):
 
-    s3 = 'http://scilifelabgenomics.s3.amazonaws.com/{file}'
+    s3 = 'http://scilifelabgenomics.s3.amazonaws.com/seal_data/{file}'
     test_files = ['ecoli.tar', 'test.prq']
 
     chef_recipe = """
@@ -18,23 +18,15 @@ def _configure(node, opts=None):
     sudo chef-solo -c solo.rb -j node.json
     """
 
-    if node == 'namenode':
+    if command == 'namenode':
         #Set the recipe to execute
         chef_recipe = chef_recipe.format(type='namenode')
         ck(chef_recipe, shell=True)
-        print 'Executing recipe hadoop::' + str(node) + '...'
+        print 'Executing recipe hadoop::' + str(command) + '...'
         ck(execute_recipe, shell=True)
-        print 'Downloading test data from S3...'
-        for f in test_files:
-            cl = ['wget', f.format(file=f)]
-            ck(cl)
-        print 'Moving data to HDFS...'
-        hdfs.mkdir('reference_genomes')
-        hdfs.mkdir('input_seal')
-        hdfs.put('ecoli.tar', 'reference_genomes')
-        hdfs.put('test.prq', 'input_seal')
+        
 
-    else:
+    else if command == 'datanode':
         chef_recipe = chef_recipe.format(type='datanode')
 
         if not opts:
@@ -49,13 +41,25 @@ def _configure(node, opts=None):
         """
         ck(services, shell=True)
 
+    else:
+        print 'Downloading test data from S3...'
+        for f in test_files:
+            cl = ['wget', s3.format(file=f)]
+            ck(cl)
+        print 'Moving data to HDFS...'
+        hdfs.mkdir('reference_genomes')
+        hdfs.mkdir('input_seal')
+        hdfs.put('ecoli.tar', 'reference_genomes')
+        hdfs.put('test.prq', 'input_seal')
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description = 'Script to configure Amazon hadoop nodes')
     #Positional arguments (mutual exclusive)
     sp = parser.add_subparsers(dest = 'command')
     sp.add_parser('namenode', help = "Run hadoop::namenode recipe")
-    sp.add_parser('datanode', help = "Modifies attributes to point ")
+    sp.add_parser('datanode', help = "Modifies attributes to point")
+    sp.add_parser('get_data', help = "Get test data and copy it to the HDFS")
     #Optional arguments
     parser.add_argument('-n', '--namenode', help = "When installing in a datanode, specify the namenode")
 
