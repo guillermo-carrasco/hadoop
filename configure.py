@@ -20,7 +20,7 @@ def _configure(node, opts=None):
 
     if node == 'namenode':
         #Set the recipe to execute
-        chef_recipe.format(type='namenode')
+        chef_recipe = chef_recipe.format(type='namenode')
         ck(chef_recipe, shell=True)
         print 'Executing recipe hadoop::' + str(node) + '...'
         ck(execute_recipe, shell=True)
@@ -35,7 +35,7 @@ def _configure(node, opts=None):
         hdfs.put('test.prq', 'input_seal')
 
     else:
-        chef_recipe.format(type='datanode')
+        chef_recipe = chef_recipe.format(type='datanode')
 
         if not opts:
             raise AttributeError('Please specify the internal name of the namenode in this cluster.')
