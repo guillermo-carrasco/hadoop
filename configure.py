@@ -26,7 +26,7 @@ def _configure(command, opts=None):
         ck(execute_recipe, shell=True)
         
 
-    else if command == 'datanode':
+    elif command == 'datanode':
         chef_recipe = chef_recipe.format(type='datanode')
         ck(chef_recipe, shell=True)
         if not opts:
