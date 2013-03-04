@@ -18,12 +18,21 @@ def _configure(command, opts=None):
     sudo chef-solo -c solo.rb -j node.json
     """
 
+    chgrp_and_install_protobuf="""
+    source ~/.bashrc &&
+    workon master &&
+    pip install protobuf &&
+    sudo chgrp -R mapred *
+    """
+
     if command == 'namenode':
         #Set the recipe to execute
         chef_recipe = chef_recipe.format(type='namenode')
         ck(chef_recipe, shell=True)
         print 'Executing recipe hadoop::' + str(command) + '...'
         ck(execute_recipe, shell=True)
+        print 'Installing protobuf and changing group of ~/*'
+        ck(chgrp_and_install_protobuf, shell=True)
         
 
     elif command == 'datanode':
@@ -45,6 +54,8 @@ def _configure(command, opts=None):
         for s in /etc/init.d/hadoop-*; do sudo $s restart; done
         """
         ck(services, shell=True)
+        print 'Installing protobuf and changing group of ~/*'
+        ck(chgrp_and_install_protobuf, shell=True)
 
     else:
         print 'Downloading test data from S3...'
