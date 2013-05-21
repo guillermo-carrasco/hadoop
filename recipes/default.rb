@@ -21,3 +21,12 @@ end
 execute "Set links properly" do
     command "update-alternatives --set hadoop-conf /etc/hadoop/conf.my_cluster"
 end
+
+#Setup HADOOP_HOME
+ruby_block "edit-bashrc" do
+  block do
+    file = Chef::Util::FileEdit.new("#{ENV['HOME']}/.bashrc")
+    file.insert_line_if_no_match("HADOOP_HOME", "HADOOP_HOME=#{node['HADOOP_HOME']}")
+    file.write_file
+  end
+end
