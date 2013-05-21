@@ -37,6 +37,9 @@ Attributes
 	* `default[:hadoop][:datanode][:mapred]['mapred.job.tracker']`: JobTracker hostname and port
 	* `default[:hadoop][:datanode][:mapred]['mapred.local.dir']`: Local dirs for mapred temporal data
 
+__IMPORTANT__: Change all appearances of "namenode" in the datanode attributed for
+the proper hostname of the namenode
+
 You may wish to add more attributes for tuning the configuration file templates.
 
 Usage

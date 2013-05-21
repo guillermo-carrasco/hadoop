@@ -9,6 +9,8 @@ execute "apt-get update" do
   action :nothing
 end
 
+package "curl"
+
 template "/etc/apt/sources.list.d/cloudera.list" do
   owner "root"
   mode "0644"

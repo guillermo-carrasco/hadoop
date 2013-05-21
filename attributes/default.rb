@@ -2,9 +2,9 @@
 
 #Namenode attributes
 default[:hadoop][:namenode][:hdfs]['dfs.permissions.superusergroup']            =   'hadoop'
-default[:hadoop][:namenode][:hdfs]['dfs.namenode.name.dir']                     =   '/hdfs/namenode'
-default[:hadoop][:namenode][:core]['fs.defaultFS']                              =   "hdfs://namenode/"
-default[:hadoop][:namenode][:mapred]['mapred.job.tracker']                      =   "namenode:8021"
+default[:hadoop][:namenode][:hdfs]['dfs.namenode.name.dir']                     =   "/hdfs/#{node['hostname']}"
+default[:hadoop][:namenode][:core]['fs.defaultFS']                              =   "hdfs://#{node['hostname']}/"
+default[:hadoop][:namenode][:mapred]['mapred.job.tracker']                      =   "#{node['hostname']}:8021"
 default[:hadoop][:namenode][:mapred]['mapreduce.jobtracker.restart.recover']    =   'true'
 
 #Datanode attributes
