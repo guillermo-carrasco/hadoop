@@ -16,6 +16,6 @@ default[:hadoop][:datanode][:mapred]['mapred.local.dir']                        
 
 #HDFS attributes
 default[:hdfs]['tmp_dir']														=	'/tmp'
-defualt[:hdfs]['mapred_tmp']													=	'/tmp/mapred/system'
+default[:hdfs]['mapred_tmp']													=	'/tmp/mapred/system'
 default[:hdfs]['mapred_var']													=	'/var/lib/hadoop-hdfs/cache/mapred'
 default[:hdfs]['mapred_staging']												=	'/var/lib/hadoop-hdfs/cache/mapred/mapred/staging'
