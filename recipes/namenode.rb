@@ -45,7 +45,7 @@ template '/etc/hadoop/conf.my_cluster/mapred-site.xml' do
 end
 
 #Create HDFS directory
-directory '/hdfs/namenode' do
+directory "#{node[:hadoop][:namenode][:hdfs]['dfs.namenode.name.dir']}" do
     mode 0755
     owner "hdfs"
     group "hdfs"
@@ -65,43 +65,30 @@ end
 
 #Create /tmp directory for mapreduce
 pre = 'sudo -u hdfs hadoop fs -'
-execute 'Creating /tmp directory' do
-    command "#{pre}mkdir /tmp"
+execute 'Creating tmp directory' do
+    command "#{pre}mkdir #{node[:hdfs]['tmp_dir']}"
 end
-execute 'Change permissions of /tmp' do
-    command "#{pre}chmod -R 1777 /tmp"
+
+execute 'Change permissions of tmp' do
+    command "#{pre}chmod -R 1777 #{node[:hdfs]['tmp_dir']}"
+end
+
+#Create tmp directory for mapreduce
+execute 'Creating tmp directory for mapred' do
+    command "#{pre}mkdir #{node[:hdfs]['mapred_tmp']}"
 end
 
 #Create /var directories for MapReduce
-%w{/var/lib/hadoop-hdfs/cache/mapred/mapred/staging /tmp/mapred/system}.each do |dir|
-    execute 'Creating /tmp and /var HDFS directories' do
-        command "#{pre}mkdir #{dir}"
-    end
+execute 'Creating var directories for mapred' do
+    command "#{pre}mkdir #{node[:hdfs]['mapred_staging']}"
 end
 
 execute 'Changing permissions' do
-    command "#{pre}chmod 1777 /var/lib/hadoop-hdfs/cache/mapred/mapred/staging"
+    command "#{pre}chmod 1777 #{node[:hdfs]['mapred_staging']}"
 end
 execute 'Changing permissions' do
-    command "#{pre}chown -R mapred /var/lib/hadoop-hdfs/cache/mapred"
+    command "#{pre}chown -R mapred #{node[:hdfs]['mapred_var']}"
 end
 execute 'Changing permissions' do
-    command "#{pre}chown mapred:hadoop /tmp/mapred/system"
-end
-
-#Start mapreduce service
-service "hadoop-0.20-mapreduce-jobtracker" do
-    action [ :start, :enable]
-end
-
-#Create directories for the user vagrant
-execute 'Creating user directory' do
-    command "#{pre}mkdir /user/vagrant"
-end
-execute 'Changing permissions' do
-    command "#{pre}chown vagrant /user/vagrant"
-end
-
-execute 'Add the user vagrant to the group hadoop' do
-    command 'usermod -a -G hadoop vagrant'
+    command "#{pre}chown mapred:hadoop #{node[:hdfs]['mapred_tmp']}"
 end

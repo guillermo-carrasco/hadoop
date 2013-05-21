@@ -13,3 +13,9 @@ default[:hadoop][:datanode][:hdfs]['dfs.datanode.data.dir']                     
 default[:hadoop][:datanode][:core]['fs.defaultFS']                              =   "hdfs://namenode/"
 default[:hadoop][:datanode][:mapred]['mapred.job.tracker']                      =   "namenode:8021"
 default[:hadoop][:datanode][:mapred]['mapred.local.dir']                        =   '/data/1/mapred/local,/data/2/mapred/local'
+
+#HDFS attributes
+default[:hdfs]['tmp_dir']														=	'/tmp'
+defualt[:hdfs]['mapred_tmp']													=	'/tmp/mapred/system'
+default[:hdfs]['mapred_var']													=	'/var/lib/hadoop-hdfs/cache/mapred'
+default[:hdfs]['mapred_staging']												=	'/var/lib/hadoop-hdfs/cache/mapred/mapred/staging'

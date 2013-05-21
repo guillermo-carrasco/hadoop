@@ -19,12 +19,23 @@ Tested on Ubuntu 12.04, though should work on most Linux distributions.
 
 Attributes
 ==========
+* Namenode attributes
+	* `default[:hadoop][:namenode][:hdfs]['dfs.permissions.superusergroup']`: Define
+	user to run HDFS daemons
+	* `default[:hadoop][:namenode][:hdfs]['dfs.namenode.name.dir']`: Directory to store
+	namenode HDFS data
+	* `default[:hadoop][:namenode][:core]['fs.defaultFS']`: HDFS namenode URI
+	* `default[:hadoop][:namenode][:mapred]['mapred.job.tracker']`: JobTracker hostname and port
+	* `default[:hadoop][:namenode][:mapred]['mapreduce.jobtracker.restart.recover']`
 
-* `hadoop[:mirror_url]` - Get a mirror from http://www.apache.org/dyn/closer.cgi/hadoop/core/.
-* `hadoop[:version]` - Specify the version of hadoop to install.
-* `hadoop[:uid]` - Default userid of the hadoop user.
-* `hadoop[:gid]` - Default group for the hadoop user.
-* `hadoop[:java_home]` - You will probably want to change this to match where Java is installed on your platform.
+* Datanode attributes
+	* `default[:hadoop][:datanode][:hdfs]['dfs.permissions.superusergroup']`: Define
+	user to run HDFS daemons
+	* `default[:hadoop][:datanode][:hdfs]['dfs.datanode.data.dir']`: HDFS data dir
+	(here is where HDFS stores the actual blocks of data)
+	* `default[:hadoop][:datanode][:core]['fs.defaultFS']`: HDFS namenode URI
+	* `default[:hadoop][:datanode][:mapred]['mapred.job.tracker']`: JobTracker hostname and port
+	* `default[:hadoop][:datanode][:mapred]['mapred.local.dir']`: Local dirs for mapred temporal data
 
 You may wish to add more attributes for tuning the configuration file templates.
 
@@ -39,6 +50,9 @@ which node are you installing:
 * hadoop::namenode_yarn
 * hadoop::datanode_yarn
 
+The recipe also tune the configurations files. The installation will end up with
+a ready-to-go hadoop cluster.
+
 [o1]:http://www.cloudera.com/content/cloudera/en/products/cdh.html
 
 License and Author
@@ -48,7 +62,7 @@ Author:: Joshua Timberman (<joshua@opscode.com>)
 
 Copyright:: 2009, Opscode, Inc
 
-Maintainer of this version: Guillermo Carrasco (<guillermo.carrasco@scilifelab.se>)
+Contributions: Guillermo Carrasco (<guillermo.carrasco@scilifelab.se>)
 
 
 you may not use this file except in compliance with the License.

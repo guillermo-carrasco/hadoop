@@ -46,7 +46,7 @@ template '/etc/hadoop/conf.my_cluster/mapred-site.xml' do
 end
 
 #Create data directories for HDFS
-%w{/hdfs/data/1/ /hdfs/data/2/}.each do |dir|
+"#{node[:hadoop][:datanode][:hdfs]['dfs.datanode.data.dir']}".split(',').each do |dir|
     directory "#{dir}" do
         mode 0755
         owner "hdfs"
@@ -57,7 +57,7 @@ end
 end
 
 #Create data directories for MapReduce
-%w{/data/1/mapred/local /data/2/mapred/local}.each do |dir|
+"#{node[:hadoop][:datanode][:mapred]['mapred.local.dir']}".split(',').each do |dir|
     directory "#{dir}" do
         mode 0755
         owner "mapred"
@@ -75,8 +75,4 @@ end
 #Start mapreduce service
 service "hadoop-0.20-mapreduce-tasktracker" do
     action [ :start, :enable]
-end
-
-execute 'Add the user vagrant to the group hadoop' do
-    command 'usermod -a -G hadoop vagrant'
 end
