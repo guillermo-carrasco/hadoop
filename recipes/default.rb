@@ -23,10 +23,14 @@ execute "Set links properly" do
 end
 
 #Create a file in /etc/profile.d to export HADOOP_HOME variable
+directory "/etc/profile.d" do
+  mode 00755
+end
+
 hadoop_home = { :value => "#{node['HADOOP_HOME']}" }
 template '/etc/profile.d/hadoop_home.sh' do
     source 'hadoop_home.erb'
-    mode 0644
+    mode 0755
     owner "root"
     group "root"
     action :create

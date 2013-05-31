@@ -12,6 +12,13 @@ package "hadoop-0.20-mapreduce-tasktracker"
 package "hadoop-hdfs-datanode"
 package "hadoop-client"
 
+#Create soft link to hadoop lib
+link "#{node['HADOOP_HOME']}/lib" do
+    to "#{node['HADOOP_HOME']}/../lib"
+    link_type :symbolic
+    action :create
+end
+
 #Configure core-site.xml
 core_site_vars = { :options => node[:hadoop][:datanode][:core] }
 template '/etc/hadoop/conf.my_cluster/core-site.xml' do

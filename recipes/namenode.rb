@@ -10,6 +10,14 @@ include_recipe "hadoop"
 #Namenode specific packages
 package "hadoop-hdfs-namenode"
 package "hadoop-0.20-mapreduce-jobtracker"
+package "hadoop-client"
+
+#Create soft link to hadoop lib
+link "#{node['HADOOP_HOME']}/lib" do
+    to "#{node['HADOOP_HOME']}/../lib"
+    link_type :symbolic
+    action :create
+end
 
 #Configure core-site.xml
 core_site_vars = { :options => node[:hadoop][:namenode][:core] }
