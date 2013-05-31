@@ -22,11 +22,20 @@ execute "Set links properly" do
     command "update-alternatives --set hadoop-conf /etc/hadoop/conf.my_cluster"
 end
 
-#Setup HADOOP_HOME
-ruby_block "edit-bashrc" do
+#Create a file in /etc/profile.d to export HADOOP_HOME variable
+hadoop_home = { :value => "#{node['HADOOP_HOME']}" }
+template '/etc/profile.d/hadoop_home.sh' do
+    source 'hadoop_home.erb'
+    mode 0644
+    owner "root"
+    group "root"
+    action :create
+    variables hadoop_home
+end
+
+#Set the environment variable for this provess
+ruby_block "Setting HADOOP_HOME environment variable for this process" do
   block do
-    file = Chef::Util::FileEdit.new("#{ENV['HOME']}/.bashrc")
-    file.insert_line_if_no_match("HADOOP_HOME", "HADOOP_HOME=#{node['HADOOP_HOME']}")
-    file.write_file
+    ENV['HADOOP_HOME'] = "#{node['HADOOP_HOME']}"
   end
 end
