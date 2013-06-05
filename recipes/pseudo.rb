@@ -15,8 +15,8 @@ execute "Removing soft link to distributed mode configuration" do
 end
 
 #Create soft link to hadoop lib
-link "/etc/hadoop/conf.pseudo.mr1" do
-    to "/etc/hadoop/conf"
+link "/etc/hadoop/conf" do
+    to "/etc/hadoop/conf.pseudo.mr1"
     link_type :symbolic
     action :create
 end
