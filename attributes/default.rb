@@ -1,5 +1,6 @@
 #Common attributes
 default['HADOOP_HOME']															=	'/usr/lib/hadoop/client-0.20/'
+default['HADOOP_VERSION']														=	'2.0.0-cdh4.3.0'
 
 #Namenode attributes
 default[:hadoop][:namenode][:hdfs]['dfs.permissions.superusergroup']            =   'hadoop'

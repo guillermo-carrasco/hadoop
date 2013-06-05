@@ -27,14 +27,14 @@ directory "/etc/profile.d" do
   mode 00755
 end
 
-hadoop_home = { :value => "#{node['HADOOP_HOME']}" }
+hadoop_home_and_version = { :value => "#{node['HADOOP_HOME']}", :version => "#{node['HADOOP_VERSION']}" }
 template '/etc/profile.d/hadoop_home.sh' do
     source 'hadoop_home.erb'
     mode 0755
     owner "root"
     group "root"
     action :create
-    variables hadoop_home
+    variables hadoop_home_and_version
 end
 
 #Set the environment variable for this provess
