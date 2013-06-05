@@ -8,6 +8,7 @@ include_recipe "hadoop"
 
 #Install Hadoop in pseudo-distributed mode
 package "hadoop-0.20-conf-pseudo"
+package "hadoop-client"
 
 #Point to pseudo distributed mode configuration
 execute "Removing soft link to distributed mode configuration" do
@@ -17,6 +18,13 @@ end
 #Create soft link to hadoop lib
 link "/etc/hadoop/conf" do
     to "/etc/hadoop/conf.pseudo.mr1"
+    link_type :symbolic
+    action :create
+end
+
+#Create soft link to hadoop lib
+link "#{node['HADOOP_HOME']}/lib" do
+    to "#{node['HADOOP_HOME']}/../lib"
     link_type :symbolic
     action :create
 end
