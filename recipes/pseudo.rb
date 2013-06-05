@@ -61,6 +61,6 @@ end
 
 user = node[:hadoop][:pseudo]['user']
 execute "Create user directories" do
-	command "sudo -u hdfs hadoop fs -mkdir /user/#{user} && sudo -u hdfs hadoop fs -chown  /user/#{user}"
+	command "sudo -u hdfs hadoop fs -mkdir /user/#{user} && sudo -u hdfs hadoop fs -chown #{user} /user/#{user}"
 end
 
