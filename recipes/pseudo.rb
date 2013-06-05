@@ -48,7 +48,7 @@ execute "Create mapreduce system directories" do
 end
 
 execute "Start MapReduce" do
-	command "for x in /etc/init.d/hadoop-0.20-mapreduce-* ; do $s start ; done"
+	command "for s in /etc/init.d/hadoop-0.20-mapreduce-* ; do $s start ; done"
 end
 
 user = node[:hadoop][:pseudo]['user']
