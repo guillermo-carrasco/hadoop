@@ -41,5 +41,6 @@ end
 ruby_block "Setting HADOOP_HOME environment variable for this process" do
   block do
     ENV['HADOOP_HOME'] = "#{node['HADOOP_HOME']}"
+    ENV['HADOOP_VERSION'] = "#{node[HADOOP_VERSION]}"
   end
 end
