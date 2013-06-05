@@ -9,6 +9,18 @@ include_recipe "hadoop"
 #Install Hadoop in pseudo-distributed mode
 package "hadoop-0.20-conf-pseudo"
 
+#Point to pseudo distributed mode configuration
+execute "Removing soft link to distributed mode configuration" do
+	command "rm /etc/hadoop/conf"
+end
+
+#Create soft link to hadoop lib
+link "/etc/hadoop/conf.pseudo.mr1" do
+    to "/etc/hadoop/conf"
+    link_type :symbolic
+    action :create
+end
+
 #Prepare HDFS
 execute "Format namenode" do
     command "sudo -u hdfs hdfs namenode -format"
