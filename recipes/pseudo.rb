@@ -26,7 +26,12 @@ execute "Format namenode" do
     command "sudo -u hdfs hdfs namenode -format"
 end
 
-execute "Start HDFS" do
+#Start and enable the HDFS services
+service "hadoop-hdfs-namenode" do
+    action [ :start, :enable]
+end
+
+execute "Create HDFS dirs" do
 	command "sudo -u hdfs hadoop fs -mkdir -p /tmp && sudo -u hdfs hadoop fs -chmod -R 1777 /tmp"
 end
 
