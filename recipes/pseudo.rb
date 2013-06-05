@@ -27,7 +27,7 @@ execute "Format namenode" do
 end
 
 execute "Start HDFS" do
-	command "sudo -u hdfs hadoop fs -mkdir -p /tmp $ sudo -u hdfs hadoop fs -chmod -R 1777 /tmp"
+	command "sudo -u hdfs hadoop fs -mkdir -p /tmp && sudo -u hdfs hadoop fs -chmod -R 1777 /tmp"
 end
 
 execute "Create mapreduce system directories" do
