@@ -20,3 +20,6 @@ default[:hdfs]['tmp_dir']														=	'/tmp'
 default[:hdfs]['mapred_tmp']													=	'/tmp/mapred/system'
 default[:hdfs]['mapred_var']													=	'/var/lib/hadoop-hdfs/cache/mapred'
 default[:hdfs]['mapred_staging']												=	'/var/lib/hadoop-hdfs/cache/mapred/mapred/staging'
+
+#Pseudo-distributed mode attributes
+default[:hadoop][:pseudo]['user']												=	'travis'
