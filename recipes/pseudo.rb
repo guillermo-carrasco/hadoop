@@ -39,6 +39,10 @@ service "hadoop-hdfs-namenode" do
     action [ :start, :enable]
 end
 
+service "hadoop-hdfs-datanode" do
+    action [ :start, :enable]
+end
+
 execute "Create HDFS dirs" do
 	command "sudo -u hdfs hadoop fs -mkdir -p /tmp && sudo -u hdfs hadoop fs -chmod -R 1777 /tmp"
 end
