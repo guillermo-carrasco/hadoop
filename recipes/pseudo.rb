@@ -36,11 +36,11 @@ end
 
 #Start and enable the HDFS services
 service "hadoop-hdfs-namenode" do
-    action [ :start, :enable]
+    action :start
 end
 
 service "hadoop-hdfs-datanode" do
-    action [ :start, :enable]
+    action :start
 end
 
 execute "Create HDFS dirs" do
