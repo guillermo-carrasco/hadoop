@@ -8,6 +8,7 @@ include_recipe "hadoop"
 
 #Install Hadoop in pseudo-distributed mode
 package "hadoop-0.20-conf-pseudo"
+package "hadoop-hdfs-datanode"
 package "hadoop-client"
 
 #Point to pseudo distributed mode configuration
