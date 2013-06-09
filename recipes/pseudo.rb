@@ -33,7 +33,6 @@ end
 #Prepare HDFS
 execute "Format namenode" do
     command "sudo -u hdfs hdfs namenode -format"
-    action :run
 end
 
 #Start and enable the HDFS services
@@ -44,7 +43,6 @@ end
 #Try the traditionas way
 execute "Restarting hadoop services"
     command "for s in /etc/init.d/hadoop-*; do $s restart; done"
-    action :run
 end
 
 execute "Create HDFS dirs" do
