@@ -41,7 +41,7 @@ service "hadoop-hdfs-namenode" do
 end
 
 #Try the traditionas way
-execute "Restarting hadoop services"
+execute "Restarting hadoop services" do
     command "for s in /etc/init.d/hadoop-*; do $s restart; done"
 end
 
