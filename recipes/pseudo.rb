@@ -4,23 +4,44 @@
 #
 #
 
-include_recipe "hadoop"
+include_recipe "hadoop::repo"
 
 #Install Hadoop in pseudo-distributed mode
 package "hadoop-0.20-conf-pseudo"
 package "hadoop-hdfs-datanode"
 package "hadoop-client"
 
-#Point to pseudo distributed mode configuration
-execute "Removing soft link to distributed mode configuration" do
-	command "rm /etc/hadoop/conf"
+
+#Install and configure update-alternatives
+execute "Install update alternatives" do
+    command "update-alternatives --install /etc/hadoop/conf hadoop-conf /etc/hadoop/conf.pseudo.mr1 50"
 end
 
-#Create soft link to hadoop lib
-link "/etc/hadoop/conf" do
-    to "/etc/hadoop/conf.pseudo.mr1"
-    link_type :symbolic
+execute "Set links properly" do
+    command "update-alternatives --set hadoop-conf /etc/hadoop/conf.pseudo.mr1"
+end
+
+#Create a file in /etc/profile.d to export HADOOP_HOME variable
+directory "/etc/profile.d" do
+  mode 00755
+end
+
+hadoop_home_and_version = { :value => "#{node['HADOOP_HOME']}", :version => "#{node['HADOOP_VERSION']}" }
+template '/etc/profile.d/hadoop_home.sh' do
+    source 'hadoop_home.erb'
+    mode 0755
+    owner "root"
+    group "root"
     action :create
+    variables hadoop_home_and_version
+end
+
+#Set the environment variable for this provess
+ruby_block "Setting HADOOP_HOME environment variable for this process" do
+  block do
+    ENV['HADOOP_HOME'] = "#{node['HADOOP_HOME']}"
+    ENV['HADOOP_VERSION'] = "#{node['HADOOP_VERSION']}"
+  end
 end
 
 #Create soft link to hadoop lib
