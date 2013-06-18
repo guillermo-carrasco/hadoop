@@ -7,7 +7,7 @@ version           "0.8.1"
 depends           "java"
 
 recipe "hadoop", "Installs hadoop from Cloudera's repo"
-recipe "hadoop::naenode", "Installs hadoop-namenode packages"
+recipe "hadoop::namenode", "Installs hadoop-namenode packages"
 recipe "hadoop::datanode", "Installs hadoop-datanode packages"
 recipe "hadoop::hive", "Installs hadoop's hive package"
 recipe "hadoop::pig", "Installs hadoop's pig package"
